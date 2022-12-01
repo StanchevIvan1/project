@@ -1,0 +1,44 @@
+{% load static %}
+    <!-- Header -->
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'index' %}"><h2>Sixteen <em>Clothing</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% url 'index' as url %}
+              <li class="nav-item {% if request.path == url %}active{% endif %}">
+                <a class="nav-link" href="{{ url }}">Home
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+                {% url 'products' as url %}
+              <li class="nav-item {% if request.path == url %}active{% endif %}">
+                <a class="nav-link" href="{{ url }}">Our Products</a>
+              </li>
+                {% url 'about' as url %}
+              <li class="nav-item {% if request.path == url %}active{% endif %}">
+                <a class="nav-link" href="{{ url }}">About Us</a>
+              </li>
+                            {% url 'contact' as url %}
+              <li class="nav-item {% if request.path == url %}active{% endif %}">
+                <a class="nav-link" href="{{ url }}">Contact Us</a>
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'sign up' %}">Sign up</a>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'sign in' %}">Sign in</a>
+                {% else %}
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'user details' pk=request.user.pk %}">Profile</a>
+                    <li class="nav-item">
+                <a class="nav-link" href="{% url 'sign out' %}">Sign out</a>
+                {% endif %}
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
