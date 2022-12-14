@@ -48,6 +48,15 @@ class AppUserAdmin(auth_admin.UserAdmin):
              )}),
     )
     inlines = [ProfileInLine]
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "password1", "password2"),
+            },
+        ),
+    )
     # add_fieldsets = (
     #     (
     #         None,

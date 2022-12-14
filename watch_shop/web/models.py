@@ -30,24 +30,26 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-#
-# class ShoppingCart(models.Model):
-#     quantity = models.PositiveIntegerField(
-#         validators=(MinValueValidator(0),)
-#         , )
-#
-#     created_at = models.DateTimeField(
-#         auto_now_add=True,
-#     )
-#
-#     user = models.OneToOneField(
-#         Profile,
-#         primary_key=True,
-#         on_delete=models.CASCADE,
-#     )
-#
-#     product = models.ForeignKey(
-#         Product,
-#         primary_key=
-#     )
-#
+
+class ShoppingCart(models.Model):
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    user = models.OneToOneField(
+        Profile,
+        primary_key=True,
+        on_delete=models.CASCADE,
+    )
+
+    product = models.ManyToManyField(
+        Product, through='ShoppingProduct'
+    )
+
+
+class ShoppingProduct(models.Model):
+    shoppingcart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, unique=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, unique=False)
+    quantity = models.PositiveIntegerField(default=1,
+                                           validators=(MinValueValidator(0),)
+                                           , )

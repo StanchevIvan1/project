@@ -7,27 +7,93 @@
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>new arrivals</h4>
-              <h2>sixteen products</h2>
+              <h4>best products</h4>
+              <h2>high-end stock</h2>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    
+    <style>
+    .pages{
+        margin-bottom: 10px;
+    }
+    </style>
+    <script>
+
+function showSnackbar() {
+    const snackBar =
+        document.getElementById("snackbar");
+    // Dynamically Appending class
+    // to HTML element
+    snackBar.className = "show-bar";
+
+    setTimeout(function () {
+       // Dynamically Removing the Class
+       // from HTML element
+       // By Replacing it with an Empty
+       // String after 5 seconds
+       snackBar.className =
+          snackBar.className.replace("show-bar", "");
+    }, 5000);
+}
+    </script>
     <div class="products">
       <div class="container">
-        <div class="row">
+        <div class="row" id="products">
           <div class="col-md-12">
-            <div class="filters">
+{#            <div class="filters">#}
               <ul>
-                  <li class="active" data-filter="*">All Products</li>
-                  <li data-filter=".des">Featured</li>
-                  <li data-filter=".dev">Flash Deals</li>
-                  <li data-filter=".gra">Last Minute</li>
+{#                  <li class="active" data-filter="*">All Products</li>#}
+{#                  <li data-filter=".des">Featured</li>#}
+{#                  <li data-filter=".dev">Flash Deals</li>#}
+{#                  <li data-filter=".gra">Last Minute</li>#}
+{#                  <li class="active"><a href="{{ paginator }}">{{ page_obj }}</a></li>#}
+
+              {#          <div class="col-md-12">#}
+              {% if page_obj %}
+            <ul class="pages">
+                {% if page_obj.has_previous %}
+           <li> <a href="?page=1#products"><i class="fa fa-angle-double-left"></i></a></li>
+{#                    <li><a href="?page=1">&laquo;<i class="fa fa-angle-double-right"></i></a></li>#}
+            <li><a href="?page={{ page_obj.previous_page_number }}#products">{{ page_obj.previous_page_number }}</a></li>
+        {% endif %}
+
+{#              <li><a href="#">1</a></li>#}
+              <li class="active"><a>{{ page_obj.number }}</a></li>
+{#            <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#            {{ page_obj.number }}#}
+{#        </span>#}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}#products">{{ page_obj.next_page_number }}</a></li>
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>#}
+                <li><a href="?page={{ page_obj.paginator.num_pages }}#products"><i class="fa fa-angle-double-right"></i></a></li>
+
+        {% endif %}
+{#              <li><a href="#">3</a></li>#}
+{#              <li><a href="#">4</a></li>#}
+{#              <li><a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa fa-angle-double-right"></i></a></li>#}
+            </ul>
+              {% endif %}
+{#          </div>#}
+{#                          {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo;</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#            {{ page_obj.number }}#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>#}
+{#        {% endif %}#}
+
               </ul>
-            </div>
           </div>
           <div class="col-md-12">
             <div class="filters-content">
@@ -40,6 +106,17 @@
                           <a href="#"><h4>{{ product.name }}</h4></a>
                           <h6>${{ product.price|floatformat:0 }}</h6>
                           <p>{{ product.description }}</p>
+                                              <a href="{% url 'purchase' pk=request.user.pk product_id=product.id %}"
+                                                 class="filled-button">Purchase Now</a>
+                                        {% if is_staff or is_admin %}
+                            <a href="{% url 'product edit' pk=product.id %}"
+                                                 class="filled-button">Edit</a>
+                            {% endif %}
+{#    <button class="btn btn-lg"#}
+{#            onclick="showSnackbar()">#}
+{#         Show Snackbar#}
+{#    </button>#}
+{#    <div id="snackbar">Hello GeeksforGeeks</div>#}
 {#                          <ul class="stars">#}
 {#                            <li><i class="fa fa-star"></i></li>#}
 {#                            <li><i class="fa fa-star"></i></li>#}
@@ -52,6 +129,12 @@
                       </div>
                     </div>
                     {% endfor %}
+                  {% if message.level == 50 %}
+  <div class="snackbar">{{message}}</div>
+  </div>
+  {% else %}
+{{ message }}
+            {% endif %}
 {#{% for product in products_list %}#}
 {#                <div class="col-md-4">#}
 {#            <div class="product-item">#}
@@ -170,15 +253,15 @@
                 </div>
             </div>
           </div>
-          <div class="col-md-12">
-            <ul class="pages">
-              <li><a href="#">1</a></li>
-              <li class="active"><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-            </ul>
-          </div>
+{#          <div class="col-md-12">#}
+{#            <ul class="pages">#}
+{#              <li><a href="#">1</a></li>#}
+{#              <li class="active"><a href="#">2</a></li>#}
+{#              <li><a href="#">3</a></li>#}
+{#              <li><a href="#">4</a></li>#}
+{#              <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>#}
+{#            </ul>#}
+{#          </div>#}
         </div>
       </div>
     </div>

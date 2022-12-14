@@ -1,8 +1,23 @@
 {% load static %}
+<style>
+.notification:hover {
+  background: red;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+</style>
     <!-- Header -->
       <nav class="navbar navbar-expand-lg">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'index' %}"><h2>Sixteen <em>Clothing</em></h2></a>
+          <a class="navbar-brand" href="{% url 'index' %}"><h2>Stanchev <em>Watches</em></h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -28,13 +43,20 @@
                 {% if not request.user.is_authenticated %}
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'sign up' %}">Sign up</a>
+                    </li>
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'sign in' %}">Sign in</a>
+                    </li>
                 {% else %}
                 <li class="nav-item">
                 <a class="nav-link" href="{% url 'user details' pk=request.user.pk %}">Profile</a>
+                    </li>
                     <li class="nav-item">
                 <a class="nav-link" href="{% url 'sign out' %}">Sign out</a>
+                    </li>
+                    <li class="nav-item">
+                <a class="nav-link" href="{% url 'cart' %}"><span class="badge">{{ count }}</span><img class="notification" src="{% static 'img_3.png'%}" style="max-width: 35px; margin-top: -10px" alt="ShoppingCart"></a>
+                    </li>
                 {% endif %}
 
               </li>
