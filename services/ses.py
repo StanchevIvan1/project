@@ -6,8 +6,8 @@ import boto3
 class SESservice:
     def __init__(self):
         self.client = boto3.client('ses',
-                                   aws_access_key_id='AKIA4L7SCJJI2TAUZMHM',
-                                   aws_secret_access_key='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',
+                                   aws_access_key_id='',
+                                   aws_secret_access_key='',
                                    region_name="eu-central-1")
 
     def send_email(self, email):
